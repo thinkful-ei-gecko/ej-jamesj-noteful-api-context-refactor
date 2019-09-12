@@ -23,7 +23,7 @@ class App extends Component {
     renderNavRoutes() {
         const {notes, folders} = this.state;
         return (
-            <>
+            <React.Fragment>
                 {['/', '/folder/:folderId'].map(path => (
                     <Route
                         exact
@@ -49,14 +49,14 @@ class App extends Component {
                 />
                 <Route path="/add-folder" component={NotePageNav} />
                 <Route path="/add-note" component={NotePageNav} />
-            </>
+            </React.Fragment>
         );
     }
 
     renderMainRoutes() {
         const {notes, folders} = this.state;
         return (
-            <>
+            <React.Fragment>
                 {['/', '/folder/:folderId'].map(path => (
                     <Route
                         exact
@@ -85,7 +85,7 @@ class App extends Component {
                         return <NotePageMain {...routeProps} note={note} />;
                     }}
                 />
-            </>
+            </React.Fragment>
         );
     }
 
