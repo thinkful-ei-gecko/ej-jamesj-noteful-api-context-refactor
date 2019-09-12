@@ -1,18 +1,43 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Note.css'
+import Context from '../Context-Comp/Context'
 
-export default function Note(props) {
+export default class Note extends Component {
+  static defaultProps = {
+    onDeleteNote: () => {}
+  }
+
+  static contextType = Context
+
+  handleDelete = (e) => {
+    e.preventDefault()
+    const noteId = this.props.id
+
+    fetch(`http://localhost:9090/notes/${noteId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(() => {
+      this.props.onDeleteNote(noteId)
+      this.context.deleteNote(noteId)
+      })
+  }
+  render(){
+    const {name, id, modified} = this.props
   return (
     <div className='Note'>
       <h2 className='Note__title'>
-        <Link to={`/note/${props.id}`}>
-          {props.name}
+        <Link to={`/note/${id}`}>
+          {name}
         </Link>
       </h2>
-      <button className='Note__delete' type='button'>
+      <button className='Note__delete' type='button' onClick={this.handleDelete}>
         <FontAwesomeIcon icon='trash-alt' />
         {' '}
         remove
@@ -22,10 +47,11 @@ export default function Note(props) {
           Modified
           {' '}
           <span className='Date'>
-            {format(props.modified, 'Do MMM YYYY')}
+            {format(modified, 'Do MMM YYYY')}
           </span>
         </div>
       </div>
     </div>
   )
+  }
 }

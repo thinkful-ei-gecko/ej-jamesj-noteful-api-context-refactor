@@ -34,6 +34,12 @@ class App extends Component {
     })
   }
 
+  handleDeleteNote = noteId => {
+      this.setState({
+          notes: this.state.notes.filter(note => note.id !== noteId)
+      })
+  }
+
   renderNavRoutes() {
     return (
       <React.Fragment>
@@ -52,16 +58,7 @@ class App extends Component {
             // )}
           />
         ))}
-        <Route
-          path="/note/:noteId"
-          component={NotePageNav}
-          // render={routeProps => {
-          //     const {noteId} = routeProps.match.params;
-          //     const note = findNote(notes, noteId) || {};
-          //     const folder = findFolder(folders, note.folderId);
-          //     return <NotePageNav {...routeProps} folder={folder} />;
-          // }}
-        />
+        <Route path="/note/:noteId" component={NotePageNav} />
         <Route path="/add-folder" component={NotePageNav} />
         <Route path="/add-note" component={NotePageNav} />
       </React.Fragment>
@@ -106,8 +103,13 @@ class App extends Component {
   }
 
   render() {
+      const value = {
+          notes: this.state.notes,
+          folders: this.state.folders,
+          deleteNote: this.handleDeleteNote
+      }
     return (
-      <Context.Provider value={this.state}>
+      <Context.Provider value={value}>
         <div className="App">
           <nav className="App__nav">{this.renderNavRoutes()}</nav>
           <header className="App__header">
