@@ -8,8 +8,8 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import dummyStore from '../dummy-store';
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
-import folderContext from '../Context-Comp/Folder-Context.js'
-import noteContext from '../Context-Comp/Note-Context.js'
+import Context from '../Context-Comp/Context'
+
 
 class App extends Component {
     state = {
@@ -31,13 +31,14 @@ class App extends Component {
                         exact
                         key={path}
                         path={path}
-                        render={routeProps => (
-                            <NoteListNav
-                                folders={folders}
-                                notes={notes}
-                                {...routeProps}
-                            />
-                        )}
+                        component={NoteListNav}
+                        // render={routeProps => (
+                        //     <NoteListNav
+                        //         folders={folders}
+                        //         notes={notes}
+                        //         {...routeProps}
+                        //     />
+                        // )}
                     />
                 ))}
                 <Route
@@ -93,8 +94,7 @@ class App extends Component {
 
     render() {
         return (
-            <folderContext.Provider value={this.state.folders}>
-                <noteContext.Provider value={this.state.notes}>
+            <Context.Provider value={this.state}>
                     <div className="App">
                         <nav className="App__nav">{this.renderNavRoutes()}</nav>
                         <header className="App__header">
@@ -105,8 +105,7 @@ class App extends Component {
                         </header>
                         <main className="App__main">{this.renderMainRoutes()}</main>
                     </div>
-                </noteContext.Provider>
-            </folderContext.Provider>
+                </Context.Provider>
         );
     }
 }
