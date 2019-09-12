@@ -8,6 +8,8 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import dummyStore from '../dummy-store';
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
+import folderContext from '../Context-Comp/Folder-Context.js'
+import noteContext from '../Context-Comp/Note-Context.js'
 
 class App extends Component {
     state = {
@@ -91,16 +93,20 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-                <nav className="App__nav">{this.renderNavRoutes()}</nav>
-                <header className="App__header">
-                    <h1>
-                        <Link to="/">Noteful</Link>{' '}
-                        <FontAwesomeIcon icon="check-double" />
-                    </h1>
-                </header>
-                <main className="App__main">{this.renderMainRoutes()}</main>
-            </div>
+            <folderContext.Provider value={this.state.folders}>
+                <noteContext.Provider value={this.state.notes}>
+                    <div className="App">
+                        <nav className="App__nav">{this.renderNavRoutes()}</nav>
+                        <header className="App__header">
+                            <h1>
+                                <Link to="/">Noteful</Link>{' '}
+                                <FontAwesomeIcon icon="check-double" />
+                            </h1>
+                        </header>
+                        <main className="App__main">{this.renderMainRoutes()}</main>
+                    </div>
+                </noteContext.Provider>
+            </folderContext.Provider>
         );
     }
 }
