@@ -44,6 +44,3 @@ export default function NoteListNav() {
   )
 }
 
-NoteListNav.defaultProps = {
-  folders: [],
-}
