@@ -5,7 +5,6 @@ import NoteListNav from '../NoteListNav/NoteListNav'
 import NotePageNav from '../NotePageNav/NotePageNav'
 import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
-import dummyStore from '../dummy-store'
 import './App.css'
 import Context from '../Context-Comp/Context'
 
@@ -16,7 +15,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // fake date loading from API call
     fetch('http://localhost:9090/folders')
     .then(res => res.json())
     .then(resJSON => {
